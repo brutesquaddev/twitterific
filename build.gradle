@@ -4,8 +4,11 @@ buildscript {
 		springBootVersion = '2.0.3.RELEASE'
 	}
 	repositories {
-		mavenCentral()
+		if (!System.getenv().containsKey("TEAMCITY_VERSION")) mavenLocal()
+		maven { url 'http://artifactory.kroger.com/artifactory/plugins-release' }
+		maven { url 'http://artifactory.kroger.com/artifactory/libs-release' }
 	}
+
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
@@ -36,7 +39,10 @@ compileTestKotlin {
 }
 
 repositories {
-	mavenCentral()
+	if (!System.getenv().containsKey("TEAMCITY_VERSION")) mavenLocal()
+	maven {
+		url "http://artifactory.kroger.com/artifactory/libs-release"
+	}
 }
 
 
