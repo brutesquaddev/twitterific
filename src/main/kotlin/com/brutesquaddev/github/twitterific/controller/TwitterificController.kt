@@ -8,9 +8,6 @@ class TwitterificController {
 
     @GetMapping("/tweets")
     fun getTweets() : List<String> {
-
-
-
         return emptyList()
     }
 
