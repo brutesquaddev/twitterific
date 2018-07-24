@@ -5,5 +5,7 @@ import org.springframework.stereotype.Component
 
 @Component
 @ConfigurationProperties("twitterific")
-class TwitterAccessConfig(val accessKey : String = "", val accessSecret : String = "",
-                          val consumerKey : String = "", val consumerSecret : String = "")
+class TwitterAccessConfig(var accessKey : String = "",
+                          var accessSecret : String = "",
+                          var consumerKey : String = "",
+                          var consumerSecret : String = "")

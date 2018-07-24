@@ -1,5 +1,6 @@
 package com.brutesquaddev.github.twitterific.controller
 
+import com.brutesquaddev.github.twitterific.service.RealTwitterService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import twitter4j.Query
@@ -12,27 +13,9 @@ import kotlin.streams.toList
 
 
 @RestController
-class TwitterificController {
+class TwitterificController(val realTwitterService: RealTwitterService) {
 
     @GetMapping("/tweets")
-    fun getTweets() : List<String> {
-
-        val cb = ConfigurationBuilder()
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(System.getProperty("consumer_key"))
-                .setOAuthConsumerSecret(System.getProperty("consumer_secret"))
-                .setOAuthAccessToken(System.getProperty("access_token"))
-                .setOAuthAccessTokenSecret(System.getProperty("access_secret"))
-        val tf = TwitterFactory(cb.build())
-        val twitter = tf.getInstance()
-
-        val query = Query("kroger")
-        val result = twitter.search(query)
-
-        return result.tweets.stream()
-                .map { item -> item.text }
-                .toList()
-
-    }
+    fun getTweets() : List<String> = realTwitterService.sampleTweets()
 
 }
