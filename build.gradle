@@ -54,5 +54,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	compile("org.jetbrains.kotlin:kotlin-reflect")
+	compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.1'
+	compile group: 'org.twitter4j', name: 'twitter4j-stream', version: '4.0.2'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
