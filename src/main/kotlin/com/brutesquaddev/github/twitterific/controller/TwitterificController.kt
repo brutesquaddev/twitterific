@@ -8,8 +8,7 @@ import twitter4j.Twitter
 import twitter4j.conf.ConfigurationBuilder
 import java.util.stream.Collectors
 import twitter4j.QueryResult
-
-
+import kotlin.streams.toList
 
 
 @RestController
@@ -32,7 +31,7 @@ class TwitterificController {
 
         return result.tweets.stream()
                 .map { item -> item.text }
-                .collect<List<String>>(Collectors.toList<String>())
+                .toList()
 
     }
 

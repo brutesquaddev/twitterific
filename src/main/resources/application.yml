@@ -2,3 +2,9 @@ sample.tweets:
   - tweet1
   - tweet2
   - tweet3
+
+twitterific:
+  accessKey: ${access_key}
+  accessSecret: ${access_secret}
+  consumerKey: ${consumer_key}
+  consumerSecret: ${consumer_secret}
