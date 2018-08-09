@@ -31,4 +31,24 @@ class RealTwitterService(var twitterAccessConfig: TwitterAccessConfig): TwitterS
                 .toList()
     }
 
+    override fun searchTweets(query: String): List<String> {
+        val cb = ConfigurationBuilder()
+        cb.setDebugEnabled(true)
+            .setOAuthConsumerKey(twitterAccessConfig.consumerKey)
+            .setOAuthConsumerSecret(twitterAccessConfig.consumerSecret)
+            .setOAuthAccessToken(twitterAccessConfig.accessKey)
+            .setOAuthAccessTokenSecret(twitterAccessConfig.accessSecret)
+        val tf = TwitterFactory(cb.build())
+        val twitter = tf.instance
+
+        val twitterQuery = Query(query)
+            .apply { count = 100; lang = "en"; }
+
+        val result = twitter.search(twitterQuery)
+
+        return result.tweets.stream()
+            .map {"${it.user.name} : ${it.text}" }
+            .toList()
+    }
+
 }
