@@ -10,6 +10,7 @@ import twitter4j.Query
 import twitter4j.QueryResult
 import twitter4j.TwitterFactory
 import twitter4j.conf.ConfigurationBuilder
+import java.util.concurrent.TimeUnit
 import kotlin.streams.toList
 
 
@@ -59,10 +60,11 @@ class RealTwitterService(var twitterAccessConfig: TwitterAccessConfig,
         timer.record {
             try {
                 result = twitter.search(twitterQuery)
-            } catch (ignored: InterruptedException) {
+            } catch (e: InterruptedException) {
             }
         }
 
+        println(timer.totalTime(TimeUnit.MILLISECONDS))
 
         return result!!.tweets.stream()
             .map {"${it.user.name} : ${it.text}" }
