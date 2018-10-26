@@ -1,13 +1,18 @@
 package com.brutesquaddev.github.twitterific.service
 
 import com.brutesquaddev.github.twitterific.config.TwitterAccessConfig
+import io.micrometer.core.instrument.Timer
 import io.micrometer.core.instrument.composite.CompositeMeterRegistry
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import twitter4j.Query
+import twitter4j.QueryResult
 import twitter4j.TwitterFactory
 import twitter4j.conf.ConfigurationBuilder
 import kotlin.streams.toList
+
+
 
 @Component
 @ConditionalOnProperty(value = ["twitter.source"], havingValue = "real", matchIfMissing = true)
@@ -46,9 +51,20 @@ class RealTwitterService(var twitterAccessConfig: TwitterAccessConfig,
         val twitterQuery = Query(query)
             .apply { count = 100; lang = "en"; }
 
-        val result = twitter.search(twitterQuery)
+        val registry = SimpleMeterRegistry()
+        val timer: Timer = registry.timer("app.event")
 
-        return result.tweets.stream()
+        var result: QueryResult? = null
+
+        timer.record {
+            try {
+                result = twitter.search(twitterQuery)
+            } catch (ignored: InterruptedException) {
+            }
+        }
+
+
+        return result!!.tweets.stream()
             .map {"${it.user.name} : ${it.text}" }
             .toList()
     }
