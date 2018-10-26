@@ -50,6 +50,7 @@ repositories {
 
 
 dependencies {
+	compile('io.micrometer:micrometer-registry-atlas:0.12.0.RELEASE')
 	compile('org.springframework.boot:spring-boot-starter')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

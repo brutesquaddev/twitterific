@@ -1,6 +1,7 @@
 package com.brutesquaddev.github.twitterific.service
 
 import com.brutesquaddev.github.twitterific.config.TwitterAccessConfig
+import io.micrometer.core.instrument.composite.CompositeMeterRegistry
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import twitter4j.Query
@@ -10,7 +11,8 @@ import kotlin.streams.toList
 
 @Component
 @ConditionalOnProperty(value = ["twitter.source"], havingValue = "real", matchIfMissing = true)
-class RealTwitterService(var twitterAccessConfig: TwitterAccessConfig): TwitterService {
+class RealTwitterService(var twitterAccessConfig: TwitterAccessConfig,
+                         var compositeMeterRegistry: CompositeMeterRegistry): TwitterService {
     override fun sampleTweets(): List<String> {
         val cb = ConfigurationBuilder()
         cb.setDebugEnabled(true)
